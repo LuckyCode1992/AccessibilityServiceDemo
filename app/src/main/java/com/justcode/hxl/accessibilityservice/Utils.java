@@ -7,7 +7,11 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.provider.Settings;
+import android.support.constraint.ConstraintLayout;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -21,7 +25,7 @@ public class Utils {
                 if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
                     Log.i("后台", appProcess.processName);
                     return true;
-                }else{
+                } else {
                     Log.i("前台", appProcess.processName);
                     return false;
                 }
@@ -29,7 +33,8 @@ public class Utils {
         }
         return false;
     }
-    public static void doStartApplicationWithPackageName(Context context, String packagename) {
+
+    public static boolean doStartApplicationWithPackageName(Context context, String packagename) {
 
         // 通过包名获取此APP详细信息，包括Activities、services、versioncode、name等等
         PackageInfo packageinfo = null;
@@ -39,7 +44,7 @@ public class Utils {
             e.printStackTrace();
         }
         if (packageinfo == null) {
-            return;
+            return false;
         }
 
         // 创建一个类别为CATEGORY_LAUNCHER的该包名的Intent
@@ -66,6 +71,12 @@ public class Utils {
 
             intent.setComponent(cn);
             context.startActivity(intent);
+            return true;
         }
+        return false;
     }
+
+
+
+
 }
